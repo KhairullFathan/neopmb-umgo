@@ -257,6 +257,18 @@
 		</div>
 
 
+    <!-- Third-party (CDN in both dev and prod). Loads before main.js so charts.js sees window.ApexCharts. -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3"></script>
+
+    <script
+        type="module"
+        src="https://cdn.jsdelivr.net/npm/@stisla/vanilla@3/dist/stisla.js"
+    ></script>
+    <script src="{{ asset('assets/js/app-shell.js') }}"></script>
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('assets/js/charts.js') }}"></script>
+    <script src="{{ asset('assets/js/order-form.js') }}"></script>
+    <script src="{{ asset('assets/js/table-select.js') }}"></script>
 		@stack('scripts')
         <script>
             document.querySelectorAll('.currency').forEach(function (input) {

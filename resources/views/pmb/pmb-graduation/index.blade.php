@@ -258,14 +258,6 @@
 </section>
 @endsection
 @push('scripts')
-<script
-    type="module"
-    src="https://cdn.jsdelivr.net/npm/@stisla/vanilla@3/dist/stisla.js"
-></script>
-<script src="/assets/js/app-shell.js"></script>
-<script src="/assets/js/theme.js"></script>
-<script src="/assets/js/order-form.js"></script>
-<script src="/assets/js/table-select.js"></script>
 <script>
 
 document.querySelectorAll('.graduate-form').forEach((form) => {
