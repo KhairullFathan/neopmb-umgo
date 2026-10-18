@@ -38,7 +38,7 @@
         fn ($stage) => $stage->pmbRegistrationStage->code === 'UJIAN_ONLINE'
     );
     // $exam_open = $exam_stage && $current_stage === 'UJIAN_ONLINE';
-    $exam_open = ($exam_stage) && ($payment_stage && $payment->verification_status === 'approved') && ($current_stage == 'UJIAN_ONLINE');
+    $exam_open = ($exam_stage) && ($payment_stage && $payment?->verification_status === 'approved') && ($current_stage == 'UJIAN_ONLINE');
     // dd($exam_open);
     $exam_url = route('my.exam.start', $data);
 @endphp
