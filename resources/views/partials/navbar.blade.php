@@ -1,8 +1,8 @@
 @php
     $menu = [
         ['Beranda', route('home'), 'home.*'],
-        ['Gelombang', '#gelombang', 'home.*'],
-        ['Jalur', '#jalur', 'home.*'],
+        ['Gelombang', '#gelombang_1', 'home.*'],
+        ['Jalur', '#jalur_1', 'home.*'],
         ['Bantuan', '#bantuan', 'home.*'],
     ];
     if(auth()?->user()?->getRoleNames()[0] == 'camaba'){
@@ -32,7 +32,7 @@
                 <a href="{{ route('login') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
                     Masuk
                 </a>
-                <a href="#gelombang" class="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700">
+                <a href="#gelombang_1" class="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700">
                     Daftar
                 </a>
             @else

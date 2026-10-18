@@ -50,7 +50,7 @@
 			<h1 class="mt-0.5 text-xl font-bold uppercase text-brand-800 sm:text-2xl">Membuka Penerimaan Mahasiswa Baru</h1>
 			<p class="mt-1 text-sm text-slate-600">Gabung bersama kami. Pendaftaran hanya butuh sekitar 10 menit.</p>
 		</div>
-		<a href="{{ url('/daftar') }}" class="w-full rounded-md bg-brand-600 px-8 py-3 text-center text-sm font-semibold uppercase text-white shadow-sm hover:bg-brand-700 sm:w-auto">Daftar Sekarang</a>
+		<a href="#gelombang_1" class="w-full rounded-md bg-brand-600 px-8 py-3 text-center text-sm font-semibold uppercase text-white shadow-sm hover:bg-brand-700 sm:w-auto">Daftar Sekarang</a>
 	</div>
 </section>
 
