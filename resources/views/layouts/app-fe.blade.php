@@ -9,7 +9,7 @@
 <link
 	rel="icon"
 	type="image/svg+xml"
-	href='/logo.png'
+	href='{{ asset('logo.png') }}'
 />
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 <style>

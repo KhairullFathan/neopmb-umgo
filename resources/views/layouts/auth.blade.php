@@ -6,7 +6,7 @@
 		<link
 			rel="icon"
 			type="image/svg+xml"
-			href='/logo.png'
+			href='{{ asset('logo.png') }}'
 		/>
 		<script>
 			// Apply the saved theme before first paint to avoid a flash.
