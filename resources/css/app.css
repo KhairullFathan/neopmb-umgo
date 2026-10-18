@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+    --font-sans: "Figtree", system-ui, sans-serif;
+
+    /* Warna utama: Biru dan Putih */
+    --color-brand-50: #eef3ff;
+    --color-brand-100: #dbe6ff;
+    --color-brand-200: #bcd0ff;
+    --color-brand-300: #96b2ff;
+    --color-brand-400: #7092f6;
+    --color-brand-500: #4f74f0;
+    --color-brand-600: #3b5de7;
+    --color-brand-700: #2f4bd0;
+    --color-brand-800: #2639a8;
+    --color-brand-900: #1c2a7a;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
+    }
+
+    body {
+        background: #ffffff;
+        color: #3b82f6;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+        outline: 3px solid #60a5fa;
+        outline-offset: 2px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #0f172a;
+        color: #eff6ff;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .slide {
+        transition: none;
+    }
+}
+
+.slide {
+    transition: opacity .7s ease;
+}
+
+/*
+ * Komponen halaman frontend (layouts.app-fe).
+ * Prefix "fe-" dipakai agar tidak bentrok dengan class lain.
+ * Tailwind v4: @apply dalam file yang sama dengan @import 'tailwindcss' tidak butuh @reference.
+ */
+
+@layer components {
+
+    /* =====================================================
+       FORM
+       ===================================================== */
+    .fe-label {
+        @apply mb-1.5 block text-sm font-medium text-slate-700;
+    }
+
+    .fe-input {
+        @apply block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800
+               placeholder:text-slate-400
+               focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200
+               disabled:bg-slate-50 read-only:bg-slate-50 read-only:text-slate-500;
+    }
+
+    .fe-input[type='file'] {
+        @apply file:mr-3 file:rounded-md file:border-0 file:bg-brand-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100;
+    }
+
+    .fe-error {
+        @apply mt-1.5 text-xs text-red-600;
+    }
+
+    /* =====================================================
+       KARTU
+       ===================================================== */
+    .fe-card {
+        @apply overflow-hidden rounded-xl border border-brand-100 bg-white shadow-sm;
+    }
+
+    .fe-card__header {
+        @apply flex items-center gap-3 border-b border-brand-100 bg-brand-50/60 px-6 py-4;
+    }
+
+    .fe-card__number {
+        @apply grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white;
+    }
+
+    .fe-card__title {
+        @apply text-lg font-bold text-slate-900;
+    }
+
+    .fe-card__body {
+        @apply p-6;
+    }
+
+    /* =====================================================
+       HERO / HEADER HALAMAN
+       ===================================================== */
+    .fe-hero {
+        @apply bg-gradient-to-br from-blue-700 via-brand-600 to-cyan-400 text-white;
+    }
+    .fe-hero__inner {
+        @apply mx-auto max-w-6xl px-4 py-10 sm:py-12;
+    }
+    .fe-hero__crumb {
+        @apply text-sm text-brand-100;
+    }
+    .fe-hero__title {
+        @apply mt-3 text-3xl font-bold sm:text-4xl;
+    }
+    .fe-hero__desc {
+        @apply mt-2 max-w-2xl text-brand-100;
+    }
+
+    /* =====================================================
+       TOMBOL
+       ===================================================== */
+    .fe-btn {
+        @apply inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition;
+    }
+    .fe-btn--block {
+        @apply w-full;
+    }
+    .fe-btn--sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+    .fe-btn--primary {
+        @apply bg-brand-600 text-white hover:bg-brand-700;
+    }
+    .fe-btn--outline {
+        @apply border border-brand-600 text-brand-600 hover:bg-brand-50;
+    }
+
+    /* Tombol ragu-ragu (toggle lewat aria-pressed) */
+    .fe-btn--flag {
+        @apply border border-amber-400 text-amber-600 hover:bg-amber-50;
+    }
+    .fe-btn--flag[aria-pressed='true'] {
+        @apply bg-amber-400 text-white hover:bg-amber-500;
+    }
+
+    /* Tombol nonaktif */
+    .fe-btn[aria-disabled='true'],
+    .fe-btn:disabled {
+        @apply pointer-events-none cursor-not-allowed opacity-50;
+    }
+
+    /* =====================================================
+       BADGE & PASANGAN LABEL/NILAI
+       ===================================================== */
+    .fe-badge {
+        @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+    }
+    .fe-badge--primary   { @apply bg-brand-100 text-brand-700; }
+    .fe-badge--success   { @apply bg-emerald-100 text-emerald-700; }
+    .fe-badge--info      { @apply bg-sky-100 text-sky-700; }
+    .fe-badge--warning   { @apply bg-amber-100 text-amber-700; }
+    .fe-badge--danger    { @apply bg-red-100 text-red-700; }
+    .fe-badge--secondary { @apply bg-slate-100 text-slate-600; }
+
+    .fe-meta__label {
+        @apply text-xs uppercase tracking-wide text-slate-500;
+    }
+    .fe-meta__value {
+        @apply mt-0.5 font-semibold text-slate-800;
+    }
+
+    /* =====================================================
+       TABEL
+       ===================================================== */
+    .fe-table {
+        @apply w-full text-left text-sm;
+    }
+    .fe-table thead {
+        @apply bg-brand-50 text-xs uppercase tracking-wide text-slate-600;
+    }
+    .fe-table th,
+    .fe-table td {
+        @apply px-4 py-3 align-top;
+    }
+    .fe-table tbody tr {
+        @apply border-b border-brand-100 last:border-0;
+    }
+
+    /* =====================================================
+       TIMELINE VERTIKAL
+       ===================================================== */
+    .fe-timeline {
+        @apply relative ml-2 space-y-6 border-l-2 border-brand-100 pl-6;
+    }
+    .fe-timeline__item {
+        @apply relative;
+    }
+    .fe-timeline__marker {
+        @apply absolute top-1 h-4 w-4 rounded-full border-2 border-white ring-2;
+        left: calc(-2rem - 1px);
+    }
+    .fe-timeline__marker--success { @apply bg-emerald-500 ring-emerald-200; }
+    .fe-timeline__marker--primary { @apply bg-brand-600 ring-brand-200; }
+    .fe-timeline__marker--warning { @apply bg-amber-400 ring-amber-200; }
+    .fe-timeline__title {
+        @apply font-semibold text-slate-800;
+    }
+    .fe-timeline__item[aria-current='step'] .fe-timeline__title {
+        @apply text-brand-700;
+    }
+    .fe-timeline__meta {
+        @apply mt-0.5 text-xs text-slate-500;
+    }
+
+    /* =====================================================
+       CBT / UJIAN
+       ===================================================== */
+
+    /* Timer hitung mundur (data-warning="true" saat sisa waktu <= 5 menit) */
+    .fe-timer {
+        @apply inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 font-mono text-xl font-bold tabular-nums text-white;
+    }
+    .fe-timer[data-warning='true'] {
+        @apply animate-pulse bg-red-600;
+    }
+
+    /* Pilihan jawaban:
+       <label class="fe-option">
+           <input type="radio" class="peer sr-only">
+           <div class="fe-option__box"><span class="fe-option__key">A</span> ...</div>
+       </label> */
+    .fe-option {
+        @apply block cursor-pointer;
+    }
+    .fe-option__box {
+        @apply flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 text-slate-700 transition
+               hover:border-brand-300 hover:bg-brand-50/60
+               peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-checked:ring-2 peer-checked:ring-brand-200
+               peer-focus-visible:ring-2 peer-focus-visible:ring-brand-400;
+    }
+    .fe-option__key {
+        @apply grid h-8 w-8 shrink-0 place-items-center rounded-full border border-slate-300 bg-white text-sm font-bold text-slate-600;
+    }
+    .peer:checked + .fe-option__box .fe-option__key {
+        @apply border-brand-600 bg-brand-600 text-white;
+    }
+
+    /* Grid nomor soal */
+    .fe-qnav__btn {
+        @apply grid h-10 w-10 place-items-center rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-600 transition hover:border-brand-400;
+    }
+    .fe-qnav__btn[data-answered='true'] {
+        @apply border-brand-600 bg-brand-600 text-white;
+    }
+    .fe-qnav__btn[data-flagged='true'] {
+        @apply border-amber-400 bg-amber-400 text-white;
+    }
+    .fe-qnav__btn[aria-current='true'] {
+        @apply ring-2 ring-brand-500 ring-offset-2;
+    }
+}

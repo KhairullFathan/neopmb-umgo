@@ -1,0 +1,14 @@
+saya ingin membuat aplikasi berbasis web untuk sistem pendaftaran mahasiswa baru universitas muhammadiyah gorontalo. saya menggunakan stack laravel + spatie (role permission) + stisla/stisla(view). sekarang saya belum untuk membuat antar muka saya ingin masuk terlebih dahulu ke dalama perancangan database. mari kita mulai dari user, untuk role ada superadmin, admin (panitia PMB), keuangan, akademik/kemahasiswaan, pimpinan, dan camaba. superadmin semua fitur. admin melakukan verifikasi berkas, mendaftarkan camaba dari dalam sistem, kelulusan, verifikasi pembayaran registrasi ulang. keuangan melihat statistik keuangan dari formulir sampai dengan verifikasi registrasi ulang. pimpinan melihat statistik pendaftar. dan camaba melakukan pendaftaran, upload berkas, mengikuti ujian, upload pembayaran. superadmin melalukan setup pmb, menambahkan data prodi, fakultas, semua fitur admin, keuangan, dan pimpinan. untuk admin, pimpinan saya ingin ada hak akses untuk mengakses prodi apa saja yang di izinkan, sehingga dapat di atur admin a hanya bisa verifikasi pada prodi a,b,dan c atau hanya a saja.
+
+
+Tahap 1, camaba membuat akun jika belum ada aku, jika sudah ada tinggal login.
+Tahap 2, camaba membuat akun dengan memberikan Nama Lengkap, NIK/nomor identitas ( sebagai username), Nomor Handphone. setelah itu langsung login.
+    Tahap 3.1, melengkapi biodata
+    Tahap 3.2, memilih jalur pendaftaran / gelombang pendaftaran / prodi yang dipilih sesuai gelombang dan jalur.
+    Tahap 3.2.1, membayar formulir (jika jalur memerlukan biaya formulir)
+    Tahap 3.2.2, melengkapi berkas sesuai jalur pendaftaran
+    Tahap 3.3. jika jalur kesehatan / kedokteran kelulusan peretama adalah seleski berkas (diumumkan)
+    Tahap 3.4, jika jalur kesehatan / kedokteran terdapat sesi tes offline, wawancara offline, psikotes offline yang terjadwal
+    Tahap 3.5, menunggu kelulusan (jika jalur flexible pengumuman langsung muncul ketika dinyatakan lulus) + download bukti kelulusan dan rincian biaya
+Tahap 4, melakukan registrasi ulang (jika jalur flexible registrasi ulang langsung dapat dilakukan dengan deadline 2 pekaan / 14 hari setelah pengumuman) + download bukti registrasi ulang dan bukti sebagai mahasiswa baru tahun ajaran tersebut.
+Tahap 5, mendapatkan NIM.
