@@ -134,7 +134,7 @@
                                     data-sender_account_name="{{ $payment->sender_account_name ?? "-" }}"
                                     data-sender_bank_name="{{ $payment->sender_bank_name ?? "-" }}"
                                     data-paid_amount="{{ $payment->paid_amount_formatted ?? "-" }}"
-                                    data-paid_at="{{ $payment->paid_at->format('Y-m-d') ?? "-" }}"
+                                    data-paid_at="{{ $payment->paid_at?->format('Y-m-d') ?? "-" }}"
                                     data-verification_status="{{ $payment->verification_status ?? "-" }}"
                                     data-verification_notes="{{ $payment->verification_notes }}"
                                 >
