@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<section class="page__section">
+{{-- <section class="page__section">
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12 xl:col-span-4">
             <div class="card card--stat">
@@ -993,7 +993,7 @@
             </table>
         </div>
     </div>
-</section>
+</section> --}}
 @endsection
 @push('scripts')
 @endpush
