@@ -3,7 +3,7 @@
 @section('title', @$title)
 
 @section('header')
-<h1 class="page__title">Welcome back, <span>Steven</span> 👋</h1>
+<h1 class="page__title">Welcome back, <span>{{auth()->user()->username}}</span> 👋</h1>
 @endsection
 
 @section('content')
