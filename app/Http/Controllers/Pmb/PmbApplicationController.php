@@ -14,9 +14,8 @@ use App\Models\ApplicationDocuments;
 
 class PmbApplicationController extends Controller
 {
-    private $user = auth()->user();
     public function index(Request $request){
-        $user = $this->user;
+        $user = auth()->user();
         $query = Application::query();
         $query->whereHas('studyPrograms', function($q) use ($user){
             $q->whereIn(
