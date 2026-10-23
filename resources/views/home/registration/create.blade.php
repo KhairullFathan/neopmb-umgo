@@ -17,7 +17,7 @@
         $school_major_label = 'Program Studi';
         $school_major_placeholder = 'KEPERAWATAN';
         $school_type_label = 'Jenis Perguruan Tinggi';
-    } else if(in_array($pmb_wave_path->pmbRegistrationPath->code, ['REGKES', 'REGKEDOK'])){
+    } else if(in_array($pmb_wave_path->pmbRegistrationPath->code, ['REGKEDOK'])){
         $option_school_type = ['SMA','MA'];
         $school_name_label = 'Asal Sekolah';
         $school_name_placeholder = 'SMA N 1 GORONTALO';
