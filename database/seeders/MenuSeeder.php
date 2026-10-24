@@ -99,86 +99,72 @@ class MenuSeeder extends Seeder
                 ]
             ],
             [
-                ['key'=>'pmb'],
+                ['key'=>'pmb.registration_path'],
                 [
                     'id'=> 7,
                     'parent_id'=> null,
-                    'name'=>'PMB',
-                    'route'=> null,
-                    'active_route'=> 'pmb.*',
-                    'icon'=>'register',
-                    'permission'=>null,
-                    'sort_order'=>5,
-                    'is_active'=>true,
-                ]
-            ],
-            [
-                ['key'=>'pmb.registration_path'],
-                [
-                    'id'=> 8,
-                    'parent_id'=> 7,
                     'name'=>'Jalur Pendaftaran',
                     'route'=> 'pmb.registration_path.index',
                     'active_route'=> 'pmb.registration_path.*',
                     'icon'=> null,
                     'permission'=>'pmb.registration_path.view',
-                    'sort_order'=>1,
+                    'sort_order'=>5,
                     'is_active'=>true,
                 ]
             ],
             [
                 ['key'=>'pmb.period'],
                 [
-                    'id'=> 9,
-                    'parent_id'=> 7,
+                    'id'=> 8,
+                    'parent_id'=> null,
                     'name'=>'Periode PMB',
                     'route'=> 'pmb.period.index',
                     'active_route'=> 'pmb.period.*',
                     'icon'=> null,
                     'permission'=>'pmb.period.view',
-                    'sort_order'=>2,
+                    'sort_order'=>6,
                     'is_active'=>true,
                 ]
             ],
             [
                 ['key'=>'pmb.wave'],
                 [
-                    'id'=> 10,
-                    'parent_id'=> 7,
+                    'id'=> 9,
+                    'parent_id'=> null,
                     'name'=>'Gelombang PMB',
                     'route'=> 'pmb.wave.index',
                     'active_route'=> 'pmb.wave.*',
                     'icon'=> null,
                     'permission'=>'pmb.wave.view',
-                    'sort_order'=>3,
+                    'sort_order'=>7,
                     'is_active'=>true,
                 ]
             ],
             [
                 ['key'=>'pmb.application'],
                 [
-                    'id'=> 11,
-                    'parent_id'=> 7,
+                    'id'=> 10,
+                    'parent_id'=> null,
                     'name'=>'Formulir PMB',
                     'route'=> 'pmb.application.index',
                     'active_route'=> 'pmb.application.*',
                     'icon'=> null,
                     'permission'=>'pmb.application.view',
-                    'sort_order'=>4,
+                    'sort_order'=>8,
                     'is_active'=>true,
                 ]
             ],
             [
                 ['key'=>'pmb.graduation'],
                 [
-                    'id'=> 12,
-                    'parent_id'=> 7,
+                    'id'=> 11,
+                    'parent_id'=> null,
                     'name'=>'Kelulusan PMB',
                     'route'=> 'pmb.graduation.index',
                     'active_route'=> 'pmb.graduation.*',
                     'icon'=> null,
                     'permission'=>'pmb.graduation.view',
-                    'sort_order'=>5,
+                    'sort_order'=>9,
                     'is_active'=>true,
                 ]
             ],
