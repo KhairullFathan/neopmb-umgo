@@ -73,27 +73,21 @@
 		</li>
         @else
             @if (auth()->user()->getRoleNames()[0]=='camaba')
-            <li class="mt-2 grid grid-cols-2 gap-2">
-                <a href="{{ route('my.application.index') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
-                    Akun Saya
-                </a>
-            </li>
+            <a href="{{ route('my.application.index') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
+                Akun Saya
+            </a>
             @else
-            <li class="mt-2 grid grid-cols-2 gap-2">
-                <a href="{{ route('dashboard') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
-                    Akun Saya
-                </a>
-            </li>
+            <a href="{{ route('dashboard') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
+                Akun Saya
+            </a>
             @endif
-            <li class="mt-2 grid grid-cols-2 gap-2">
-                <form action="{{ route('logout') }}" method="post" >
-                    @csrf
-                    @method('POST')
-                    <button class="rounded-md border bg-red-600 px-3 py-1 text-center text-white">
-                        Logout
-                    </button>
-                </form>
-            </li>
+            <form action="{{ route('logout') }}" method="post" >
+                @csrf
+                @method('POST')
+                <button class="rounded-md border bg-red-600 px-3 py-1 text-center text-white">
+                    Logout
+                </button>
+            </form>
         @endif
 	</ul>
 </header>
