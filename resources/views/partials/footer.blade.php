@@ -14,7 +14,7 @@
 		</div>
 		<div>
 			<p class="font-semibold text-slate-50">Hubungi kami</p>
-			<p class="mt-2">0812-4158-9493</p>
+			<p class="mt-2">0857-5388-6041</p>
 		</div>
 	</div>
 	<p class="border-t border-brand-100 py-4 text-center text-xs text-slate-500">

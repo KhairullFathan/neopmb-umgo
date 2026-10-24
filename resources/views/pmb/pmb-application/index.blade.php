@@ -27,41 +27,46 @@
 <section class="page__section">
     @include('components.alert')
     <div class="card">
-        <form method="get" action="">
+        <form action="" method="get">
             <div class="card__header flex-wrap">
-                <div></div>
-                <div class="input-group ms-auto w-full md:w-60 mb-4 md:mb-0" role="search">
-                    <span class="input-group__text">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="1em"
-                            height="1em"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <g fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="11.5" cy="11.5" r="9.5" />
-                            <path stroke-linecap="round" d="M18.5 18.5L22 22" />
-                            </g>
-                        </svg>
-                    </span>
-                    <input
-                        type="search"
-                        name="search"
-                        class="input"
-                        placeholder="Pencarian..."
-                        aria-label="Pencarian"
-                        value="{{ request('search') }}"
-                    />
+                <h4>Filter</h4>
+            </div>
+            <div class="card__body">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="field">
+                        <label for="search" class="field__label">Kata Kunci (NIK/Nama)</label>
+                        <input type="text" class="input" id="search" name="search" placeholder="johndoe" value="{{ request('search') }}"/>
+                    </div>
+                    <div class="field">
+                        <label for="search" class="field__label">Periode</label>
+                        <select name="period_id" id="period_id" class="select">
+                            <option value="">Pilih Opsi</option>
+                            @foreach ($periods as $item=>$name)
+                            <option value="{{ $item }}" {{ request('period_id') == $item ? 'selected':'' }}>{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="search" class="field__label">Gelombang</label>
+                        <select name="wave_id" id="wave_id" class="select">
+                            <option value="">Pilih Opsi</option>
+                            @foreach ($pmbWaves as $item)
+                            <option value="{{ $item->id }}" {{ request('wave_id') == $item->id ? 'selected':'' }}>{{ $item->pmbPeriod->name }} {{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="search" class="field__label">Jalur</label>
+                        <select name="registration_path_id" id="registration_path_id" class="select">
+                            <option value="">Pilih Opsi</option>
+                            @foreach ($pmbWavePaths as $item)
+                            <option value="{{ $item->pmbRegistrationPath->id }}" {{ request('registration_path_id') == $item->pmbRegistrationPath->id ? 'selected':'' }}>({{ $item->pmbRegistrationPath->code }}) {{ $item->pmbRegistrationPath->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="field--inline">
-                    <select name="period_id" id="period_id" class="select">
-                        <option value="">Pilih Periode PMB</option>
-                        @foreach ($periods as $item=>$name)
-                        <option value="{{ $item }}" {{ old('period_id') == $item ? 'selected':'' }}>{{ $name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+            </div>
+            <div class="card__footer">
                 <button type="submit" class="button button--primary">
                     <x-icon icon="search" />
                     Cari
@@ -72,6 +77,11 @@
                 </a>
             </div>
         </form>
+    </div>
+    <div class="card">
+        <div class="card__header flex-wrap">
+            <div>{{ $data->total() }} Formulir</div>
+        </div>
 
         <div class="table-responsive">
             <table class="table table--hover table--align-middle">

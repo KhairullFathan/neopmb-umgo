@@ -41,6 +41,7 @@
                                         class="input"
                                         id="name"
                                         name="name"
+                                        readonly
                                         value="{{ old('name' ,$data->name) }}"
                                     />
                                     @error('name')

@@ -17,6 +17,8 @@ class PmbApplicationController extends Controller
     public function index(Request $request){
         $user = auth()->user();
         $query = Application::query();
+        $pmbWaves = PmbWave::query();
+        $pmbWavePaths = PmbWavePath::query();
         $query->whereHas('studyPrograms', function($q) use ($user){
             $q->whereIn(
                 'study_program_code',
@@ -32,10 +34,35 @@ class PmbApplicationController extends Controller
                     ->orWhere('identity_number','like', "%{$search}%");
             });
         }
+
+        if($request->has('period_id') && $request->period_id != ''){
+            $period_id = $request->period_id;
+            $query->whereHas('pmbWave', function($q) use ($period_id){
+                $q->where('pmb_waves.pmb_period_id', $period_id);
+            });
+            $pmbWaves->where('pmb_period_id', $period_id);
+        }
+
+        if($request->has('wave_id') && $request->wave_id != ''){
+            $wave_id = $request->wave_id;
+            $query->whereHas('pmbWave', function($q) use ($wave_id){
+                $q->where('pmb_waves.id', $wave_id);
+            });
+            $pmbWavePaths->where('pmb_wave_id', $wave_id);
+        }
+
+        if($request->has('registration_path_id') && $request->registration_path_id != ''){
+            $registration_path_id = ($request->registration_path_id);
+            $query->whereHas('pmbRegistrationPath', function($q) use ($registration_path_id){
+                $q->where('pmb_registration_paths.id', $registration_path_id);
+            });
+        }
         $data = $query->orderBy('registration_number','DESC')->paginate(25)->appends(['search']);
         return view('pmb.pmb-application.index',[
             'title'=> 'Data Formulir',
             'periods'=> PmbPeriod::orderBy('id', 'desc')->pluck('name', 'id'),
+            'pmbWaves'=> $pmbWaves->orderBy('pmb_period_id','desc')->orderBy('code', 'desc')->get(),
+            'pmbWavePaths'=> $pmbWavePaths->get(),
             'data'=> $data,
         ]);
     }
