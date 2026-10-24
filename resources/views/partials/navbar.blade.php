@@ -35,15 +35,16 @@
                 <a href="#gelombang_1" class="rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700">
                     Daftar
                 </a>
-            @elseif (auth()->user()->getRoleNames()[0]=='camaba')
-            <a href="{{ route('my.application.index') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
-                Akun Saya
-            </a>
-            @elseif (auth()->user()->getRoleNames()!='camaba')
-            <a href="{{ route('dashboard') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
-                Akun Saya
-            </a>
             @else
+                @if (auth()->user()->getRoleNames()[0]=='camaba')
+                <a href="{{ route('my.application.index') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
+                    Akun Saya
+                </a>
+                @else
+                <a href="{{ route('dashboard') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
+                    Akun Saya
+                </a>
+                @endif
                 <form action="{{ route('logout') }}" method="post" >
                     @csrf
                     @method('POST')
@@ -70,22 +71,29 @@
                 Daftar
             </a>
 		</li>
-        @elseif (auth()->user()->getRoleNames()[0]=='camaba')
-        <a href="{{ route('my.application.index') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
-            Akun Saya
-        </a>
-        @elseif (auth()->user()->getRoleNames()!='camaba')
-        <a href="{{ route('dashboard') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
-            Akun Saya
-        </a>
         @else
-            <form action="{{ route('logout') }}" method="post" >
-                @csrf
-                @method('POST')
-                <button class="rounded-md border bg-red-600 px-3 py-1 text-center text-white">
-                    Logout
-                </button>
-            </form>
+            @if (auth()->user()->getRoleNames()[0]=='camaba')
+            <li class="mt-2 grid grid-cols-2 gap-2">
+                <a href="{{ route('my.application.index') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
+                    Akun Saya
+                </a>
+            </li>
+            @else
+            <li class="mt-2 grid grid-cols-2 gap-2">
+                <a href="{{ route('dashboard') }}" class="rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50">
+                    Akun Saya
+                </a>
+            </li>
+            @endif
+            <li class="mt-2 grid grid-cols-2 gap-2">
+                <form action="{{ route('logout') }}" method="post" >
+                    @csrf
+                    @method('POST')
+                    <button class="rounded-md border bg-red-600 px-3 py-1 text-center text-white">
+                        Logout
+                    </button>
+                </form>
+            </li>
         @endif
 	</ul>
 </header>
