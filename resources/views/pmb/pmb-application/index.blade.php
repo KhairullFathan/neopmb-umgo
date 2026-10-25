@@ -46,6 +46,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @if (request()->has('period_id') && request()->period_id != '')
                     <div class="field">
                         <label for="search" class="field__label">Gelombang</label>
                         <select name="wave_id" id="wave_id" class="select">
@@ -55,6 +56,8 @@
                             @endforeach
                         </select>
                     </div>
+                    @endif
+                    @if (request()->has('wave_id') && request()->wave_id != '')
                     <div class="field">
                         <label for="search" class="field__label">Jalur</label>
                         <select name="registration_path_id" id="registration_path_id" class="select">
@@ -64,6 +67,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @endif
                 </div>
             </div>
             <div class="card__footer">
@@ -183,7 +187,7 @@
                         <td scope="row" class="text-end">
                             <div class="flex justify-end gap-1">
                                 <a
-                                    href="{{ route('pmb.application.show', $row) }}" target="_blank"
+                                    href="{{ route('pmb.application.show', $row) }}"
                                     class="button button--ghost button--primary button--icon-only button--sm"
                                     aria-label="Detail"
                                 >

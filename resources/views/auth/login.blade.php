@@ -27,6 +27,13 @@
 		<div>
 			<h1 class="text-2xl">Selamat Datang di <br> Website PMB UMGO</h1>
 			<p class="text-muted-foreground mt-1">Silahkan masuk untuk ke dashboard pendaftaran.</p>
+            <div class="mt-2">
+                <div class="alert alert--info">
+                    <p class="leading-6">
+                        Untuk Login ke Akun Anda, Gunakan NIK yang Telah Anda Gunakan untuk Mendaftar Sebagai Username & Password Akun Anda.
+                    </p>
+                </div>
+            </div>
 		</div>
 
 		<form class="flex flex-col gap-4" method="post" action="{{ route('loginact') }}">
@@ -59,7 +66,7 @@
 						class="input"
 						id="username"
 						name="username"
-						placeholder="username"
+						placeholder="NIK"
 						autocomplete
 					/>
 				</div>

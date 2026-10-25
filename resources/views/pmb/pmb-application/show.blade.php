@@ -117,7 +117,11 @@
                             };
                         @endphp
                         <li class="list-group__item">
-                            <span>Biaya Formulir <sup class="badge {{ $pay_status['class'] }}">{{ $pay_status['label'] }}</sup></span>
+                            <span>
+                                Biaya Formulir
+                                <sup class="badge {{ $pay_status['class'] }}">{{ $pay_status['label'] }}</sup>
+                                @if ($payment && @$payment->verifier) <br/><i>Diverifikasi: {{ $payment->verifier->username }}</i> @endif
+                            </span>
                             <span class="ms-auto text-muted-foreground">
                             @if ($payment && $payment->proof_path)
                                 <a href="{{ Storage::url($payment->proof_path) }}" target="_blank" rel="noopener" class="button button--ghost button--primary">
@@ -169,7 +173,11 @@
                             };
                         @endphp
                         <li class="list-group__item">
-                            <span>{{ $req->name }} <sup class="badge {{ $doc_status['class'] }}">{{ $doc_status['label'] }}</sup></span>
+                            <span>
+                                {{ $req->name }}
+                                <sup class="badge {{ $doc_status['class'] }}">{{ $doc_status['label'] }}</sup>
+                                @if ($doc && @$doc->verifier) <br/><i>Diverifikasi: {{ $doc->verifier->username }}</i> @endif
+                            </span>
                             <span class="ms-auto text-muted-foreground">
                             @if ($doc && $doc->file_path)
                                 <a href="{{ Storage::url($doc->file_path) }}" target="_blank" rel="noopener" class="button button--ghost button--primary">
