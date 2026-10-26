@@ -5,7 +5,7 @@
 @section('content')
 @php
     $graduate_years = [];
-    for ($year = date('Y'); $year >= date('Y') - 20; $year--) {
+    for ($year = date('Y') + 1; $year >= date('Y') - 20; $year--) {
         $graduate_years[] = $year;
     }
 @endphp
