@@ -209,9 +209,9 @@
                                 <label for="study_programs[]" class="field__label">Pilihan Program Studi 1</label>
                                 <select name="study_programs[]" id="study_programs[]" class="select">
                                     <option value="">Pilih Opsi</option>
-                                    @foreach ($pmb_wave_path?->studyPrograms as $item)
+                                    @forelse ($pmb_wave_path?->studyPrograms as $item)
                                         <option value="{{ $item->code }}" @selected($item->code === old('study_programs.0'))>{{ $item->degree_level }} {{ $item->name }}</option>
-                                    @endforeach
+                                    @endforelse
                                 </select>
                                 @error('study_programs.0')
                                     <p class="text-xs text-danger mt-1.5 ml-1">{{ $message }}</p>
@@ -221,9 +221,9 @@
                                 <label for="study_programs[]" class="field__label">Pilihan Program Studi 2</label>
                                 <select name="study_programs[]" id="study_programs[]" class="select">
                                     <option value="">Pilih Opsi</option>
-                                    @foreach ($pmb_wave_path?->studyPrograms as $item)
+                                    @forelse ($pmb_wave_path?->studyPrograms as $item)
                                         <option value="{{ $item->code }}" @selected($item->code === old('study_programs.1'))>{{ $item->degree_level }} {{ $item->name }}</option>
-                                    @endforeach
+                                    @endforelse
                                 </select>
                                 @error('study_programs.1')
                                     <p class="text-xs text-danger mt-1.5 ml-1">{{ $message }}</p>
