@@ -259,6 +259,21 @@
 @endsection
 @push('scripts')
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('input[type="text"]').forEach(function (input) {
+            input.addEventListener('input', function () {
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+
+                this.value = this.value.toLocaleUpperCase('id-ID');
+
+                // Pertahankan posisi kursor
+                this.setSelectionRange(start, end);
+            });
+        });
+    });
+</script>
+<script>
     function changePeriod(id){
         const url = new URL(window.location.href);
         if(id){
