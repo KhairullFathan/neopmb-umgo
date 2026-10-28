@@ -144,10 +144,12 @@ Route::middleware('auth')->group(function(){
         // application
         Route::prefix('applications')->name('application.')->group(function(){
             Route::middleware('permission:pmb.application.view')->group(function(){
-                Route::get('/',[App\Http\Controllers\Pmb\PmbApplicationController::class, 'index'])->name('index');
+                Route::get('/',[\App\Http\Controllers\Pmb\PmbApplicationController::class, 'index'])->name('index');
                 Route::get('/{application}/show', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'show'])->name('show');
             });
             Route::middleware('permission:pmb.application.manage')->group(function(){
+                Route::get('/create', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'create'])->name('create');
+                Route::post('/store', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'store'])->name('store');
                 Route::put('/{payment}/payment/verify', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'payment_verify'])->name('payment.verify');
                 Route::put('/{document}/document/verify', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'document_verify'])->name('document.verify');
                 Route::put('/{application}/stage/set', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'stage_set'])->name('stage.set');

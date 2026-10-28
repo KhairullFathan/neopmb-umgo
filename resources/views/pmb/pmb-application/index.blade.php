@@ -16,10 +16,10 @@
     </p>
 </div>
 <div class="page__action">
-    {{-- <a href="{{ route('pmb.wave.create') }}" class="button button--primary">
+    <a href="{{ route('pmb.application.create') }}" class="button button--primary">
         <x-icon icon="plus" />
         Tambah
-    </a> --}}
+    </a>
 </div>
 @endsection
 
