@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pmb;
 
 use App\Http\Controllers\Controller;
 use App\Models\ApplicationPayment;
+use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Application;
@@ -58,11 +59,18 @@ class PmbApplicationController extends Controller
         $query = Application::query();
         $pmbWaves = PmbWave::query();
         $pmbWavePaths = PmbWavePath::query();
-        $query->whereHas('studyPrograms', function($q) use ($user){
-            $q->whereIn(
-                'study_program_code',
-                $user->studyPrograms()->select('study_programs.code')
-            );
+        $studyPrograms = StudyProgram::query()->whereIn('code', $user->studyPrograms()->select('study_programs.code'))
+            ->orderBy('faculty_code','ASC')->orderBy('code','ASC')->get();
+
+        $query->whereHas('studyPrograms', function($q) use ($user, $request){
+            if($request->has('study_program_code') && $request->study_program_code != ''){
+                $q->where('study_program_code', $request->study_program_code)->where('choice_number',1);
+            }else{
+                $q->whereIn(
+                    'study_program_code',
+                    $user->studyPrograms()->select('study_programs.code')
+                );
+            }
         });
 
         if($request->has('search') && $request->search != ''){
@@ -72,6 +80,46 @@ class PmbApplicationController extends Controller
                     ->orWhere('name','like', "%{$search}%")
                     ->orWhere('identity_number','like', "%{$search}%");
             });
+        }
+
+        if($request->has('documents') && $request->documents != ''){
+            $document_status = $request->documents;
+            switch ($document_status) {
+                case 'complete':
+                    $query->whereHas(
+                        'pmbRegistrationPath.pmbRegistrationDocument'
+                    )->whereDoesntHave(
+                        'pmbRegistrationPath.pmbRegistrationDocument',
+                        function ($requiredDocument) {
+                            $requiredDocument->whereDoesntHave(
+                                'applicationDocuments',
+                                function ($uploadedDocument) {
+                                    $uploadedDocument->whereColumn(
+                                        'application_documents.application_id',
+                                        'applications.id'
+                                    )->where('verification_status','approved');
+                                }
+                            );
+                        }
+                    );
+                break;
+                case 'incomplete':
+                    $query->whereHas(
+                        'pmbRegistrationPath.pmbRegistrationDocument',
+                        function ($requiredDocument) {
+                            $requiredDocument->whereDoesntHave(
+                                'applicationDocuments',
+                                function ($uploadedDocument) {
+                                    $uploadedDocument->whereColumn(
+                                        'application_documents.application_id',
+                                        'applications.id'
+                                    );
+                                }
+                            );
+                        }
+                    );
+                break;
+            }
         }
 
         if($request->has('period_id') && $request->period_id != ''){
@@ -102,6 +150,7 @@ class PmbApplicationController extends Controller
             'periods'=> PmbPeriod::orderBy('id', 'desc')->pluck('name', 'id'),
             'pmbWaves'=> $pmbWaves->orderBy('pmb_period_id','desc')->orderBy('code', 'desc')->get(),
             'pmbWavePaths'=> $pmbWavePaths->get(),
+            'studyPrograms'=> $studyPrograms,
             'data'=> $data,
         ]);
     }
@@ -267,6 +316,29 @@ class PmbApplicationController extends Controller
             'payment'=> $payment,
             'data'=> $application,
         ]);
+    }
+
+    public function destroy(Application &$application){
+        // graduate studyPrograms payments documents
+        try {
+            $applicant = $application->applicant;
+            $user = $applicant->user;
+            DB::beginTransaction();
+            $application->graduate?->delete();
+            $application->studyPrograms()?->delete();
+            $application->payments()?->delete();
+            $application->documents()?->delete();
+            $application->delete();
+
+            $applicant?->delete();
+            $user?->delete();
+            DB::commit();
+            return redirect()->route('pmb.application.index')->with('success', 'Berhasil menghapus data');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+
     }
 
     public function payment_verify(\App\Http\Requests\ApplicationPaymentRequest &$request, ApplicationPayment &$payment){

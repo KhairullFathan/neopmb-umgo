@@ -237,11 +237,38 @@
                         </ul>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card__header">
+                        <span class="card__title">Hapus Data</span>
+                    </div>
+                    <div class="card__body">
+
+                        <button
+                            type="button"
+                            class="button button--danger"
+                            data-stisla-dialog-trigger="deleteDialog"
+                            data-delete-name="{{ $data->applicant->name ?? '' }} ({{ $data->registration_number ?? '' }})"
+                            data-delete-action="{{ route('pmb.application.destroy', $data) }}"
+                            aria-label="Hapus {{ $data->applicant->name ?? '' }} ({{ $data->registration_number ?? '' }})"
+                            data-method="DELETE"
+                        >
+                            <x-icon icon="trash"/>
+                            Hapus Data Camaba
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 </section>
+
+<x-delete-dialog
+    id="deleteDialog"
+    title="Hapus"
+    description="Data camaba yang dihapus tidak dapat dikembalikan."
+    button-text="Hapus Data Camaba"
+/>
 
 <x-form-dialog
     id="formDialogFormulir"

@@ -1,3 +1,10 @@
+{{--
+    1. BUAT AKUN
+    2. BELUM LENGKAP BERKAS
+    3. LEBGKAP BERKAS
+    4. LULUS
+    5. REGISTRASI ULANG
+--}}
 @extends('layouts.app')
 
 @section('title', @$title)
@@ -12,31 +19,12 @@
         <div class="col-span-12 xl:col-span-4">
             <div class="card card--stat">
                 <div class="card__body">
-                    <div class="card__title">Order Statistics</div>
+                    <div class="card__title">Statistik Pendaftar</div>
 
                     <div class="stat">
                         <div class="stat__value">59</div>
                         <div class="stat__meta">
-                            <span class="stat__label text-eyebrow">Total Orders · This Month</span>
-                            <span class="badge badge--soft badge--success"
-                                ><svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="1em"
-                                    height="1em"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.5"
-                                        d="m19 15l-7-6l-7 6"
-                                    />
-                                </svg>
-                                11%
-                            </span>
+                            <span class="stat__label text-eyebrow">Total Pendaftar</span>
                         </div>
                     </div>
 
@@ -44,7 +32,8 @@
                         <div class="meter__track">
                             <span class="meter__bar meter__bar--warning" style="width: 41%"></span>
                             <span class="meter__bar meter__bar--primary" style="width: 20%"></span>
-                            <span class="meter__bar meter__bar--success" style="width: 39%"></span>
+                            <span class="meter__bar meter__bar--success" style="width: 19%"></span>
+                            <span class="meter__bar meter__bar--info" style="width: 21%"></span>
                         </div>
                     </div>
 

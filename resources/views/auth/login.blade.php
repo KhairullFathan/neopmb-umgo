@@ -67,6 +67,7 @@
 						id="username"
 						name="username"
 						placeholder="NIK"
+                        value="{{ old('username') }}"
 						autocomplete
 					/>
 				</div>

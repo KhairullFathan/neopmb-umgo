@@ -38,9 +38,26 @@
                         <input type="text" class="input" id="search" name="search" placeholder="johndoe" value="{{ request('search') }}"/>
                     </div>
                     <div class="field">
+                        <label for="search" class="field__label">Program Studi</label>
+                        <select name="study_program_code" id="study_program_code" class="select">
+                            <option value="">Semua</option>
+                            @foreach ($studyPrograms as $item)
+                            <option value="{{ $item->code }}" @selected($item->code === request('study_program_code'))>{{ $item->degree_level }} {{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="search" class="field__label">Berkas</label>
+                        <select name="documents" id="documents" class="select">
+                            <option value="">Semua</option>
+                            <option value="complete" @selected('complete'===request('documents'))>Lengkap</option>
+                            <option value="incomplete" @selected('incomplete'===request('documents'))>Belum Lengkap</option>
+                        </select>
+                    </div>
+                    <div class="field">
                         <label for="search" class="field__label">Periode</label>
                         <select name="period_id" id="period_id" class="select">
-                            <option value="">Pilih Opsi</option>
+                            <option value="">Semua</option>
                             @foreach ($periods as $item=>$name)
                             <option value="{{ $item }}" {{ request('period_id') == $item ? 'selected':'' }}>{{ $name }}</option>
                             @endforeach
@@ -50,7 +67,7 @@
                     <div class="field">
                         <label for="search" class="field__label">Gelombang</label>
                         <select name="wave_id" id="wave_id" class="select">
-                            <option value="">Pilih Opsi</option>
+                            <option value="">Semua</option>
                             @foreach ($pmbWaves as $item)
                             <option value="{{ $item->id }}" {{ request('wave_id') == $item->id ? 'selected':'' }}>{{ $item->pmbPeriod->name }} {{ $item->name }}</option>
                             @endforeach
@@ -61,7 +78,7 @@
                     <div class="field">
                         <label for="search" class="field__label">Jalur</label>
                         <select name="registration_path_id" id="registration_path_id" class="select">
-                            <option value="">Pilih Opsi</option>
+                            <option value="">Semua</option>
                             @foreach ($pmbWavePaths as $item)
                             <option value="{{ $item->pmbRegistrationPath->id }}" {{ request('registration_path_id') == $item->pmbRegistrationPath->id ? 'selected':'' }}>({{ $item->pmbRegistrationPath->code }}) {{ $item->pmbRegistrationPath->name }}</option>
                             @endforeach
