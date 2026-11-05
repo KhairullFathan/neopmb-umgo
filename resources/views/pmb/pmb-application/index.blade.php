@@ -103,7 +103,7 @@
         <div class="card__header flex-wrap justify-between">
             <div>{{ $data->total() }} Formulir</div>
             <div>
-                <a href="{{ route('pmb.application.export') }}" class="button button--sm button--primary">
+                <a href="{{ route('pmb.application.export', request()->query()) }}" class="button button--sm button--primary">
                     <x-icon icon="download" />
                     Download
                 </a>
