@@ -18,6 +18,11 @@ use App\Models\ApplicationStudyProgram;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ApplicationsExport;
+use App\Exports\ApplicationSheetExport;
+
 
 class PmbApplicationController extends Controller
 {
@@ -54,18 +59,17 @@ class PmbApplicationController extends Controller
             STR_PAD_LEFT
         );
     }
-    public function index(Request $request){
+
+    private function getApplicationQuery(Request &$request): Builder{
         $user = auth()->user();
         $query = Application::query();
-        $pmbWaves = PmbWave::query();
-        $pmbWavePaths = PmbWavePath::query();
-        $studyPrograms = StudyProgram::query()->whereIn('code', $user->studyPrograms()->select('study_programs.code'))
-            ->orderBy('faculty_code','ASC')->orderBy('code','ASC')->get();
 
-        $query->whereHas('studyPrograms', function($q) use ($user, $request){
-            if($request->has('study_program_code') && $request->study_program_code != ''){
-                $q->where('study_program_code', $request->study_program_code)->where('choice_number',1);
-            }else{
+        // Filter berdasarkan program studi yang boleh diakses user
+        $query->whereHas('studyPrograms', function ($q) use ($user, $request) {
+            if ($request->filled('study_program_code')) {
+                $q->where('study_program_code', $request->study_program_code)
+                    ->where('choice_number', 1);
+            } else {
                 $q->whereIn(
                     'study_program_code',
                     $user->studyPrograms()->select('study_programs.code')
@@ -73,36 +77,39 @@ class PmbApplicationController extends Controller
             }
         });
 
-        if($request->has('search') && $request->search != ''){
+        // Pencarian
+        if ($request->filled('search')) {
             $search = $request->search;
-            $query->whereHas('applicant', function($q) use($search){
-                $q->where('applicants.name', 'like', "%{$search}%")
-                    ->orWhere('name','like', "%{$search}%")
-                    ->orWhere('identity_number','like', "%{$search}%");
+
+            $query->whereHas('applicant', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('identity_number', 'like', "%{$search}%");
             });
         }
 
-        if($request->has('documents') && $request->documents != ''){
-            $document_status = $request->documents;
-            switch ($document_status) {
+        // Filter dokumen
+        if ($request->filled('documents')) {
+            switch ($request->documents) {
                 case 'complete':
-                    $query->whereHas(
-                        'pmbRegistrationPath.pmbRegistrationDocument'
-                    )->whereDoesntHave(
-                        'pmbRegistrationPath.pmbRegistrationDocument',
-                        function ($requiredDocument) {
-                            $requiredDocument->whereDoesntHave(
-                                'applicationDocuments',
-                                function ($uploadedDocument) {
-                                    $uploadedDocument->whereColumn(
-                                        'application_documents.application_id',
-                                        'applications.id'
-                                    )->where('verification_status','approved');
-                                }
-                            );
-                        }
-                    );
-                break;
+                    $query->whereHas('pmbRegistrationPath.pmbRegistrationDocument')
+                        ->whereDoesntHave(
+                            'pmbRegistrationPath.pmbRegistrationDocument',
+                            function ($requiredDocument) {
+                                $requiredDocument->whereDoesntHave(
+                                    'applicationDocuments',
+                                    function ($uploadedDocument) {
+                                        $uploadedDocument
+                                            ->whereColumn(
+                                                'application_documents.application_id',
+                                                'applications.id'
+                                            )
+                                            ->where('verification_status', 'approved');
+                                    }
+                                );
+                            }
+                        );
+                    break;
+
                 case 'incomplete':
                     $query->whereHas(
                         'pmbRegistrationPath.pmbRegistrationDocument',
@@ -110,49 +117,144 @@ class PmbApplicationController extends Controller
                             $requiredDocument->whereDoesntHave(
                                 'applicationDocuments',
                                 function ($uploadedDocument) {
-                                    $uploadedDocument->whereColumn(
-                                        'application_documents.application_id',
-                                        'applications.id'
-                                    );
+                                    $uploadedDocument
+                                        ->whereColumn(
+                                            'application_documents.application_id',
+                                            'applications.id'
+                                        )
+                                        ->where('verification_status', 'approved');
                                 }
                             );
                         }
                     );
-                break;
+                    break;
             }
         }
 
-        if($request->has('period_id') && $request->period_id != ''){
-            $period_id = $request->period_id;
-            $query->whereHas('pmbWave', function($q) use ($period_id){
-                $q->where('pmb_waves.pmb_period_id', $period_id);
+        // Filter periode
+        if ($request->filled('period_id')) {
+            $query->whereHas('pmbWave', function ($q) use ($request) {
+                $q->where('pmb_waves.pmb_period_id', $request->period_id);
             });
-            $pmbWaves->where('pmb_period_id', $period_id);
         }
 
-        if($request->has('wave_id') && $request->wave_id != ''){
-            $wave_id = $request->wave_id;
-            $query->whereHas('pmbWave', function($q) use ($wave_id){
-                $q->where('pmb_waves.id', $wave_id);
+        // Filter gelombang
+        if ($request->filled('wave_id')) {
+            $query->whereHas('pmbWave', function ($q) use ($request) {
+                $q->where('pmb_waves.id', $request->wave_id);
             });
-            $pmbWavePaths->where('pmb_wave_id', $wave_id);
         }
 
-        if($request->has('registration_path_id') && $request->registration_path_id != ''){
-            $registration_path_id = ($request->registration_path_id);
-            $query->whereHas('pmbRegistrationPath', function($q) use ($registration_path_id){
-                $q->where('pmb_registration_paths.id', $registration_path_id);
+        // Filter jalur pendaftaran
+        if ($request->filled('registration_path_id')) {
+            $query->whereHas('pmbRegistrationPath', function ($q) use ($request) {
+                $q->where(
+                    'pmb_registration_paths.id',
+                    $request->registration_path_id
+                );
             });
         }
-        $data = $query->orderBy('registration_number','DESC')->paginate(25)->appends(['search']);
-        return view('pmb.pmb-application.index',[
-            'title'=> 'Data Formulir',
-            'periods'=> PmbPeriod::orderBy('id', 'desc')->pluck('name', 'id'),
-            'pmbWaves'=> $pmbWaves->orderBy('pmb_period_id','desc')->orderBy('code', 'desc')->get(),
-            'pmbWavePaths'=> $pmbWavePaths->get(),
-            'studyPrograms'=> $studyPrograms,
-            'data'=> $data,
+
+        return $query->orderBy('registration_number', 'DESC');
+    }
+
+    public function index(Request &$request){
+        $user = auth()->user();
+        $query = $this->getApplicationQuery($request);
+        $data = $query->paginate(25)->withQueryString();
+
+        $studyPrograms = StudyProgram::query()
+            ->whereIn(
+                'code',
+                $user->studyPrograms()->select('study_programs.code')
+            )
+            ->orderBy('faculty_code')
+            ->orderBy('code')
+            ->get();
+
+        $pmbWaves = PmbWave::query()
+            ->when($request->filled('period_id'), function ($q) use ($request) {
+                $q->where('pmb_period_id', $request->period_id);
+            })
+            ->orderBy('pmb_period_id', 'desc')
+            ->orderBy('code', 'desc')
+            ->get();
+
+        $pmbWavePaths = PmbWavePath::query()
+            ->when($request->filled('wave_id'), function ($q) use ($request) {
+                $q->where('pmb_wave_id', $request->wave_id);
+            })
+            ->get();
+
+        return view('pmb.pmb-application.index', [
+            'title' => 'Data Formulir',
+            'periods' => PmbPeriod::orderBy('id', 'desc')->pluck('name', 'id'),
+            'pmbWaves' => $pmbWaves,
+            'pmbWavePaths' => $pmbWavePaths,
+            'studyPrograms' => $studyPrograms,
+            'data' => $data,
         ]);
+    }
+
+    public function export(Request &$request){
+        $user = auth()->user();
+        $studyPrograms = StudyProgram::query()
+            ->whereIn(
+                'code',
+                $user->studyPrograms()->select('study_programs.code')
+            )
+            ->when(
+                $request->filled('study_program_code'),
+                function ($q) use ($request) {
+                    $q->where('code', $request->study_program_code);
+                }
+            )
+            ->orderBy('faculty_code', 'ASC')
+            ->orderBy('code', 'ASC')
+            ->get();
+        $sheets = [];
+
+        foreach ($studyPrograms as $studyProgram) {
+            // Gunakan query utama dengan seluruh filter index.
+            $query = $this->getApplicationQuery($request);
+            // Batasi data untuk program studi yang sedang diproses.
+            $query->whereHas('studyPrograms', function ($q) use ($studyProgram, $request) {
+                $q->where(
+                    'study_program_code',
+                    $studyProgram->code
+                );
+                // Mengikuti aturan index:
+                // jika prodi dipilih, hanya pilihan pertama.
+                if ($request->filled('study_program_code')) {
+                    $q->where('choice_number', 1);
+                }
+            });
+            // Nama sheet menggunakan nama program studi.
+            $sheets[] = new ApplicationSheetExport(
+                $query,
+                $studyProgram->name
+            );
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Validasi Sheet
+        |--------------------------------------------------------------------------
+        */
+        if (empty($sheets)) {
+            return redirect()
+                ->back()
+                ->with('error', 'Tidak ada program studi yang dapat diekspor.');
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Download Excel
+        |--------------------------------------------------------------------------
+        */
+
+        return Excel::download(
+            new ApplicationsExport($sheets),
+            'data-pendaftaran-' . now()->format('Ymd-His') . '.xlsx'
+        );
     }
 
     public function create(Request $request){
@@ -322,7 +424,7 @@ class PmbApplicationController extends Controller
         // graduate studyPrograms payments documents
         try {
             $applicant = $application->applicant;
-            $user = $applicant->user;
+            $applicantuser = $applicant->user;
             DB::beginTransaction();
             $application->graduate?->delete();
             $application->studyPrograms()?->delete();
@@ -331,7 +433,7 @@ class PmbApplicationController extends Controller
             $application->delete();
 
             $applicant?->delete();
-            $user?->delete();
+            $applicantuser?->delete();
             DB::commit();
             return redirect()->route('pmb.application.index')->with('success', 'Berhasil menghapus data');
         } catch (\Exception $e) {

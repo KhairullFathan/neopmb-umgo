@@ -146,6 +146,7 @@ Route::middleware('auth')->group(function(){
             Route::middleware('permission:pmb.application.view')->group(function(){
                 Route::get('/',[\App\Http\Controllers\Pmb\PmbApplicationController::class, 'index'])->name('index');
                 Route::get('/{application}/show', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'show'])->name('show');
+                Route::get('/export',[\App\Http\Controllers\Pmb\PmbApplicationController::class, 'export'])->name('export');
             });
             Route::middleware('permission:pmb.application.manage')->group(function(){
                 Route::get('/create', [\App\Http\Controllers\Pmb\PmbApplicationController::class, 'create'])->name('create');
