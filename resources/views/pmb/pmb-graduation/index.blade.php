@@ -229,6 +229,19 @@
                         </td>
                         <td scope="row" class="text-end">
                             <div class="flex justify-end gap-1">
+                                @if ($row->graduate)
+                                    <button
+                                        type="button"
+                                        class="button button--danger button--icon-only button--sm"
+                                        data-stisla-dialog-trigger="deleteDialog"
+                                        data-delete-name="{{ $row->name }}"
+                                        data-delete-action="{{ route('pmb.graduation.cancel', $row) }}"
+                                        aria-label="Hapus {{ $row->name }}"
+                                        data-method="DELETE"
+                                    >
+                                        <x-icon icon="trash"/>
+                                    </button>
+                                @endif
                                 {{-- <a
                                     href="{{ route('pmb.application.show', $row) }}" target="_blank"
                                     class="button button--ghost button--primary button--icon-only button--sm"
@@ -256,6 +269,12 @@
         </div>
     </div>
 </section>
+<x-delete-dialog
+    id="deleteDialog"
+    title="Batalkan Kelulusan"
+    description="Data yang anda pilih kelulusannya dibatalkan."
+    button-text="Batalkan Kelulusan"
+/>
 @endsection
 @push('scripts')
 <script>
@@ -269,7 +288,6 @@ document.querySelectorAll('.graduate-form').forEach((form) => {
         checkbox.addEventListener('change', async () => {
             // Checkbox yang sudah dipilih tidak bisa dibatalkan
             // hanya dengan mengkliknya kembali.
-            console.log(form.dataset.url);
             if (!checkbox.checked) {
                 checkbox.checked =
                     checkbox.value === form.dataset.currentCode;

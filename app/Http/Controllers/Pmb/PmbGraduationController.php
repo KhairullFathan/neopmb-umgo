@@ -83,4 +83,20 @@ class PmbGraduationController extends Controller
             ],
         ]);
     }
+
+    public function cancel(Application $application){
+        $graduate = $application->graduate;
+        if (! $graduate) {
+            return back()->with('error', 'Terjadi kesalahan: camaba yang dipilih belum ada data kelulusan');
+        }
+        try {
+            DB::beginTransaction();
+            $application->graduate->delete();
+            DB::commit();
+            return back()->with('success', 'Berhasil menghapus data kelulusan cabama');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
 }

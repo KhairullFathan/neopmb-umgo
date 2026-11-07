@@ -14,172 +14,29 @@
 @endsection
 
 @section('content')
-{{-- <section class="page__section">
+<section class="page__section">
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12 xl:col-span-4">
-            <div class="card card--stat">
-                <div class="card__body">
-                    <div class="card__title">Statistik Pendaftar</div>
-
-                    <div class="stat">
-                        <div class="stat__value">59</div>
-                        <div class="stat__meta">
-                            <span class="stat__label text-eyebrow">Total Pendaftar</span>
-                        </div>
-                    </div>
-
-                    <div class="meter meter--block meter--lg meter--stat">
-                        <div class="meter__track">
-                            <span class="meter__bar meter__bar--warning" style="width: 41%"></span>
-                            <span class="meter__bar meter__bar--primary" style="width: 20%"></span>
-                            <span class="meter__bar meter__bar--success" style="width: 19%"></span>
-                            <span class="meter__bar meter__bar--info" style="width: 21%"></span>
-                        </div>
-                    </div>
-
-                    <div class="stat-detail">
-                        <div class="stat-detail__col">
-                            <span class="stat-detail__label text-eyebrow">
-                                <span class="indicator indicator--warning"></span>
-                                Pending
-                            </span>
-                            <span class="stat-detail__value">24</span>
-                            <span class="stat-detail__pct">41%</span>
-                        </div>
-
-                        <div class="stat-detail__col">
-                            <span class="stat-detail__label text-eyebrow">
-                                <span class="indicator indicator--primary"></span>
-                                Shipping
-                            </span>
-                            <span class="stat-detail__value">12</span>
-                            <span class="stat-detail__pct">20%</span>
-                        </div>
-
-                        <div class="stat-detail__col">
-                            <span class="stat-detail__label text-eyebrow">
-                                <span class="indicator indicator--success"></span>
-                                Completed
-                            </span>
-                            <span class="stat-detail__value">23</span>
-                            <span class="stat-detail__pct">39%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-dashboard.statistik
+                :totalApplication="$totalApplication"
+                :totalApplicationDocumentComplete="$totalApplicationDocumentComplete"
+                :totalApplicationDocumentIncomplete="$totalApplicationDocumentIncomplete"
+            />
+        </div>
+        <div class="col-span-12 xl:col-span-4">
+            <x-dashboard.reregistrasi
+                :totalApplicationGraduate="$totalApplicationGraduate"
+                :totalApplicationReregistration="1"
+            />
         </div>
 
-        <div class="col-span-12 sm:col-span-6 xl:col-span-4">
-            <div class="card card--stat">
-                <div class="card__body">
-                    <div class="flex justify-between items-center">
-                        <span class="icon-box icon-box--primary icon-box--lg"
-                            ><svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <g fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <path
-                                        stroke-linecap="round"
-                                        d="M12 17v1m0-12v1m3 2.5C15 8.12 13.657 7 12 7S9 8.12 9 9.5s1.343 2.5 3 2.5s3 1.12 3 2.5s-1.343 2.5-3 2.5s-3-1.12-3-2.5"
-                                    />
-                                </g>
-                            </svg>
-                        </span>
-                        <span class="badge badge--soft badge--success"
-                            ><svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    d="m19 15l-7-6l-7 6"
-                                />
-                            </svg>
-                            8.2%
-                        </span>
-                    </div>
-                    <div class="stat">
-                        <div class="stat__value"><span class="stat__unit">$</span>187,13</div>
-                        <div class="stat__label text-eyebrow">Available Balance</div>
-                    </div>
-                    <div id="sparkBalance" class="sparkline sparkline--hero"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-12 sm:col-span-6 xl:col-span-4">
-            <div class="card card--stat">
-                <div class="card__body">
-                    <div class="flex justify-between items-center">
-                        <span class="icon-box icon-box--success icon-box--lg"
-                            ><svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <g fill="none">
-                                    <path
-                                        stroke="currentColor"
-                                        stroke-width="1.5"
-                                        d="M3.794 12.03C4.331 9.342 4.6 8 5.487 7.134a4 4 0 0 1 .53-.434C7.04 6 8.41 6 11.15 6h1.703c2.739 0 4.108 0 5.13.7q.285.196.53.435C19.4 8 19.67 9.343 20.207 12.03c.771 3.856 1.157 5.784.269 7.15q-.241.373-.56.683C18.75 21 16.785 21 12.853 21H11.15c-3.933 0-5.899 0-7.065-1.138a4 4 0 0 1-.559-.683c-.888-1.366-.502-3.294.27-7.15Z"
-                                    />
-                                    <circle cx="15" cy="9" r="1" fill="currentColor" />
-                                    <circle cx="9" cy="9" r="1" fill="currentColor" />
-                                    <path
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-width="1.5"
-                                        d="M9 6V5a3 3 0 1 1 6 0v1"
-                                    />
-                                </g>
-                            </svg>
-                        </span>
-                        <span class="badge badge--soft badge--success"
-                            ><svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    d="m19 15l-7-6l-7 6"
-                                />
-                            </svg>
-                            23%
-                        </span>
-                    </div>
-                    <div class="stat">
-                        <div class="stat__value">4,732</div>
-                        <div class="stat__label text-eyebrow">Units Sold · MTD</div>
-                    </div>
-                    <div id="sparkSales" class="sparkline sparkline--hero"></div>
-                </div>
-            </div>
+        <div class="col-span-12 xl:col-span-4">
+            <x-dashboard.formulir :totalApplicationPaymentApproved="$totalApplicationPaymentApproved" />
         </div>
     </div>
 </section>
 
-<section class="page__section">
+{{-- <section class="page__section">
     <div class="grid grid-cols-12 gap-4 items-start">
         <div class="col-span-12 xl:col-span-8">
             <div class="card">

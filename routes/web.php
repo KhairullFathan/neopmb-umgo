@@ -165,6 +165,7 @@ Route::middleware('auth')->group(function(){
             });
             Route::middleware('permission:pmb.graduation.manage')->group(function(){
                 Route::post('/{application}/store', [\App\Http\Controllers\Pmb\PmbGraduationController::class, 'store'])->name('store');
+                Route::delete('/{application}/cancel', [\App\Http\Controllers\Pmb\PmbGraduationController::class, 'cancel'])->name('cancel');
             });
         });
     });
