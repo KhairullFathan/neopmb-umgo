@@ -26,7 +26,7 @@
         <div class="col-span-12 xl:col-span-4">
             <x-dashboard.reregistrasi
                 :totalApplicationGraduate="$totalApplicationGraduate"
-                :totalApplicationReregistration="1"
+                :totalApplicationReregistration="0"
             />
         </div>
 

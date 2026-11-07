@@ -1,18 +1,27 @@
+
 @props([
-    'totalApplication'=>0,
-    'totalApplicationDocumentComplete'=>0,
-    'totalApplicationDocumentIncomplete'=>0
+    'totalApplication' => 0,
+    'totalApplicationDocumentComplete' => 0,
+    'totalApplicationDocumentIncomplete' => 0,
 ])
 
 @php
-    $percentageApplicationDocumentComplete = 0;
-    if($totalApplicationDocumentComplete > 0){
-        $percentageApplicationDocumentComplete = number_format(($totalApplicationDocumentComplete / $totalApplication) * 100, 2);
-    }
-    $percentageApplicationDocumentIncomplete = 0;
-    if($totalApplicationDocumentIncomplete > 0){
-        $percentageApplicationDocumentIncomplete = number_format(($totalApplicationDocumentIncomplete / $totalApplication) * 100, 2);
-    }
+    $total = max(0, (int) $totalApplication);
+    $totalComplete = max(0, (int) $totalApplicationDocumentComplete);
+    $totalIncomplete = max(0, (int) $totalApplicationDocumentIncomplete);
+
+    // Hitung persentase dengan proteksi division by zero.
+    $percentageComplete = $total > 0
+        ? ($totalComplete / $total) * 100
+        : 0;
+
+    $percentageIncomplete = $total > 0
+        ? ($totalIncomplete / $total) * 100
+        : 0;
+
+    // Format persentase.
+    $percentageComplete = number_format($percentageComplete, 2);
+    $percentageIncomplete = number_format($percentageIncomplete, 2);
 @endphp
 
 <div class="card card--stat">
@@ -20,7 +29,7 @@
         <div class="card__title">Statistik Pendaftar</div>
 
         <div class="stat">
-            <div class="stat__value">{{ $totalApplication }}</div>
+            <div class="stat__value">{{ $total }}</div>
             <div class="stat__meta">
                 <span class="stat__label text-eyebrow">Total Pendaftar</span>
             </div>
@@ -28,8 +37,15 @@
 
         <div class="meter meter--block meter--lg meter--stat">
             <div class="meter__track">
-                <span class="meter__bar meter__bar--success" style="width: {{ $percentageApplicationDocumentComplete }}%"></span>
-                <span class="meter__bar meter__bar--warning" style="width: {{ $percentageApplicationDocumentIncomplete }}%"></span>
+                <span
+                    class="meter__bar meter__bar--success"
+                    style="width: {{ $percentageComplete }}%"
+                ></span>
+
+                <span
+                    class="meter__bar meter__bar--warning"
+                    style="width: {{ $percentageIncomplete }}%"
+                ></span>
             </div>
         </div>
 
@@ -39,8 +55,9 @@
                     <span class="indicator indicator--success"></span>
                     Lengkap Berkas
                 </span>
-                <span class="stat-detail__value">{{ $totalApplicationDocumentComplete }}</span>
-                <span class="stat-detail__pct">{{ $percentageApplicationDocumentComplete }}%</span>
+
+                <span class="stat-detail__value">{{ $totalComplete }}</span>
+                <span class="stat-detail__pct">{{ $percentageComplete }}%</span>
             </div>
 
             <div class="stat-detail__col">
@@ -48,8 +65,9 @@
                     <span class="indicator indicator--warning"></span>
                     Belum Lengkap Berkas
                 </span>
-                <span class="stat-detail__value">{{ $totalApplicationDocumentIncomplete }}</span>
-                <span class="stat-detail__pct">{{ $percentageApplicationDocumentIncomplete }}%</span>
+
+                <span class="stat-detail__value">{{ $totalIncomplete }}</span>
+                <span class="stat-detail__pct">{{ $percentageIncomplete }}%</span>
             </div>
         </div>
     </div>
