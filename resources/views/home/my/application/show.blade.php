@@ -178,6 +178,10 @@
                             <span class="fe-meta__label">Nominal Transfer</span>
                             <div class="fe-meta__value">{{ $data->pmbWavePath()->first()?->registration_fee_formatted }}</div>
                         </div>
+
+                        <div class="col-span-2">
+                            <h5 class="text-red-500">Tidak dianjurkan melakukan pembayaran via dompet digital (Dana/Gopay/Alading/Shopee Pay, dan sejenisnya).</h5>
+                        </div>
                     </div>
 
                     <ol class="mt-5 list-decimal space-y-1.5 pl-5 text-sm text-slate-700">
