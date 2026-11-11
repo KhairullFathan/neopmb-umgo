@@ -180,7 +180,7 @@
                         </div>
 
                         <div class="col-span-2">
-                            <h5 class="text-red-500">Tidak dianjurkan melakukan pembayaran via dompet digital (Dana/Gopay/Alading/Shopee Pay, dan sejenisnya).</h5>
+                            <h5 class="text-red-500">Tidak dianjurkan melakukan pembayaran via dompet digital (Dana/Gopay/Aladin/Shopee Pay, dan sejenisnya).</h5>
                         </div>
                     </div>
 
